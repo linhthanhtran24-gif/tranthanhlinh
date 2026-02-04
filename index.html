@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRẦN THANH LINH | Personal Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --accent-color: #00bcd4; 
+            --accent-glow: rgba(0, 188, 212, 0.6);
+            --text-color: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.2);
+            --bg-dark: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 10px; }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-color);
+            overflow-x: hidden;
+            cursor: none; 
+        }
+
+        #wallpaper-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -2;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                              url('https://scontent.fuih1-1.fna.fbcdn.net/v/t39.30808-6/484049631_948950197451315_6664886126529045875_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=100&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=C0t2MHDK1uQQ7kNvwHL7Fkt&_nc_oc=AdlcHtkDQkoV3zPSEAGQ79hx3bYEQJRg7cr6SUiWe_B2s3hJq-mDc5Mtq7soYqWZo78ZgpwBZtVrTeD_Ef1xFqLT&_nc_zt=23&_nc_ht=scontent.fuih1-1.fna&_nc_gid=LOFYHMDZeIpyOmJsAcQI3Q&oh=00_Afv_Fzqz6YJ79TVx-yqhR0YA_KUz7PsFVSJqZopMejdo_w&oe=698981A3');
+            background-size: cover;
+            background-position: center;
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+        }
+
+        #cursor {
+            width: 22px; height: 22px;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 99999;
+            transition: transform 0.1s ease-out;
+            box-shadow: 0 0 15px var(--accent-color);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 20px;
+            transition: 0.5s ease;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 40px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            margin-bottom: 40px;
+        }
+
+        .profile-img {
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-color);
+            object-fit: cover;
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            background: linear-gradient(to right, #fff, var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .grid-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            padding: 60px 20px;
+            backdrop-filter: blur(15px);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-color);
+            background: rgba(0, 188, 212, 0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .grid-item i {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* TRANG NỘI DUNG CHI TIẾT - PHIÊN BẢN CỰC ĐẠI */
+        .content-page {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.15); /* Làm tối nền cực nhẹ */
+            z-index: 2000;
+            display: none; 
+            padding: 40px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1200px; /* To vượt trội */
+            min-height: 70vh; /* Cao tối thiểu 70% màn hình */
+            margin: 5vh auto;
+            background: rgba(255, 255, 255, 0.07); /* Độ trong suốt cao */
+            backdrop-filter: blur(40px); /* Kính mờ siêu sâu */
+            -webkit-backdrop-filter: blur(40px);
+            padding: 80px 60px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+            animation: slideUpLarge 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @keyframes slideUpLarge {
+            from { opacity: 0; transform: translateY(100px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .back-btn {
+            background: var(--accent-color);
+            color: #000;
+            width: fit-content;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover { transform: translateX(-10px); box-shadow: 0 0 25px var(--accent-glow); }
+
+        .page-wrapper h2 {
+            font-size: 3.5rem; /* Tiêu đề cực to */
+            color: var(--accent-color);
+            margin-bottom: 40px;
+            text-transform: capitalize;
+            text-shadow: 0 0 20px rgba(0, 188, 212, 0.4);
+        }
+
+        .page-wrapper p { 
+            font-size: 1.5rem; /* Chữ nội dung to rõ */
+            line-height: 2; 
+            border-left: 6px solid var(--accent-color);
+            padding-left: 30px;
+            text-align: justify;
+            color: #ffffff;
+            max-width: 90%;
+        }
+
+        #connect-box {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--card-border);
+        }
+
+        .social-link { color: #fff; font-size: 2.2rem; margin: 0 20px; transition: 0.3s; display: inline-block; }
+        .social-link:hover { color: var(--accent-color); transform: scale(1.3); }
+
+        @media (max-width: 1024px) {
+            .page-wrapper { padding: 40px; margin: 2vh auto; }
+            .page-wrapper h2 { font-size: 2.5rem; }
+            .page-wrapper p { font-size: 1.2rem; }
+        }
+
+        @media (max-width: 768px) {
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="wallpaper-bg"></div>
+    <div id="cursor"></div>
+    <div id="particles-js"></div>
+
+    <div class="container" id="home-view">
+        <header>
+            <img src="https://scontent.fuih1-1.fna.fbcdn.net/v/t39.30808-1/485729501_954115506934784_8957317714523370656_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=108&ccb=1-7&_nc_sid=e99d92&_nc_ohc=b-bCOTE-i_0Q7kNvwEjv_cq&_nc_oc=AdkfpuHRB1AY386WEoNotqDNGYGL09lKH5AZKLno6aGxwLCdxCvn6_2C2x_xd3TBQmoCcYxpePXzI2vYft31Bu4a&_nc_zt=24&_nc_ht=scontent.fuih1-1.fna&_nc_gid=xbFLRZPlEcRZjEX6wQ9BmA&oh=00_Afvp_zAAqC_8no_AZ84XPDy7BSaHhpDMnwlxNleAItba3Q&oe=6983877C"alt="Avatar" class="profile-img">
+            <h1>TRẦN THANH LINH</h1>
+            <p style="color: var(--accent-color); letter-spacing: 5px; font-weight: bold; text-transform: uppercase;">Học tập - Kiên trì - Ước mơ</p>
+        </header>
+
+        <div class="grid-container">
+            <div class="grid-item" onclick="openFullPage('page1')">
+                <i class="fas fa-info-circle"></i>
+                <h3>GIỚI THIỆU CHUNG</h3>
+            </div>
+            <div class="grid-item" onclick="openFullPage('page2')">
+                <i class="fas fa-user-check"></i>
+                <h3>KỸ NĂNG</h3>
+            </div>
+            <div class="grid-item" onclick="openFullPage('page3')">
+                <i class="fas fa-heart"></i>
+                <h3>Sở thích</h3>
+            </div>
+            <div class="grid-item" onclick="openFullPage('page4')">
+                <i class="fas fa-bullseye"></i>
+                <h3>THÀNH TÍCH</h3>
+            </div>
+        </div>
+
+        <section id="connect-box">
+            <div class="social-links">
+                <a href="https://www.facebook.com/thanhlinh2428" target="_blank" class="social-link"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/linh_zieon/followers/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@thanh_linh_24?is_from_webapp=1&sender_device=pc" target="_blank" class="social-link"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </section>
+    </div>
+
+    <div id="page1" class="content-page"><div class="page-wrapper"><button class="back-btn" onclick="closeFullPage('page1')"><i class="fas fa-arrow-left"></i> Quay lại</button><h2>Giới thiệu chung</h2><p>Trần Thanh Linh</p><br><img src="anh1.jpg" width="300"> <br><p>Sinh ngày:24/02/2008</p><br><p>Nơi sống:Danh Tân-Chánh Danh-Đề Gi-Gia Lai</p><br><p>Liên hệ:0334128119</p><br><p>Gmail:linhthanhtran24@gmail.com</p><br><h3>Ngoài việc đang là học sinh tôi còn làm việc tại "LINH ZIEON MEDIA" và kinh doanh thời trang thể thao</h3><br><div style="display: flex;gap: 10px;"><img src="anh2.jpg" width="400" height="450"><img src="anh3.jpg" width="350" height="500"></div></div></div>
+    <div id="page2" class="content-page"><div class="page-wrapper"><button class="back-btn" onclick="closeFullPage('page2')"><i class="fas fa-arrow-left"></i> Quay lại</button><h2>Kỹ năng</h2><br><br><p>Team work</p><br><div style="display: flex;gap: 10px;"><img src="anh4.jpg" width="250" height="250"><img src="anh5.jpg" width="250" height="300"><img src="anh6.jpg" width="300" height="200"></div> <p>Chơi được hầu hết các môn thể thao</p><br><div style="display: flex;gap: 10px;"><img src="gen-h-anh7.jpg" width="200" height="300"><img src="gen-n-anh8.jpg" width="250" height="250"><img src="gen-h-anh9.jpg" width="200" height="300"><img src="anh10.jpg" width="300" height="300"></div><p>Kinh doanh</p><br><p>Tự lập</p><br><br></div></div>
+    <div id="page3" class="content-page"><div class="page-wrapper"><button class="back-btn" onclick="closeFullPage('page3')"><i class="fas fa-arrow-left"></i> Quay lại</button><h2>Sở thích</h2><br><br><p>Nghe nhạc</p><br><img src="gen-h-anh12.jpg" width="300"><p>Chơi thể thao</p><br><div style="display: flex;gap: 10px;"><img src="gen-h-anh13.jpg" width="250" height="300"><img src="gen-h-anh14.jpg" width="200" height="300"><img src="gen-h-anh15.jpg" width="450" height="300"></div><br><p>Dance team</p><br><div style="display: flex;gap: 10px;"><img src="gen-h-anh17.jpg" width="200" height="300"><img src="gen-h-anh16.jpg" width="400" height="300"></div><p>Đi chơi du lịch cùng người thân bạn bè</p><div style="display: flex;gap: 10px;"><img src="gen-h-anh18.jpg" width="350" height="300"><img src="gen-h-anh19.jpg" width="230" height="300"><img src="gen-h-anh20.jpg" width="220" height="300"><img src="gen-h-anh22.jpg" width="350" height="300"></div><p>Tham gia hoạt động tình nguyện</p><img src="gen-h-anh21.jpg" width="250" height="350"></div></div>
+    <div id="page4" class="content-page"><div class="page-wrapper"><button class="back-btn" onclick="closeFullPage('page4')"><i class="fas fa-arrow-left"></i> Quay lại</button><h2>Thành thích</h2><br><br><p>Học sinh giỏi nhiều năm liền</p><img src="gen-h-anh23.jpg" width="300"><br><p>Đạt nhiều giải trong các cuộc thi về thể thao</p><br><div style="display: flex;gap: 10px;"><img src="gen-h-anh26.jpg" width="220" height="300"><img src="gen-h-anh27.jpg" width="220" height="300"><img src="gen-h-anh28.jpg" width="300" height="300"></div><br><p>Tham gia nhiều tiếc mục văn nghệ</p><br><div style="display: flex;gap: 10px;"><img src="gen-h-anh24.jpg" width="400" height="300"><img src="gen-h-anh25.jpg" width="400" height="300"></div></div></div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", { "particles": { "number": { "value": 80 }, "color": { "value": "#00bcd4" }, "opacity": { "value": 0.4 }, "size": { "value": 3 }, "line_linked": { "enable": true, "distance": 150, "color": "#00bcd4", "opacity": 0.2, "width": 1 }, "move": { "enable": true, "speed": 1.5 } } });
+        
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => { 
+            cursor.style.left = e.clientX + 'px'; 
+            cursor.style.top = e.clientY + 'px'; 
+        });
+
+        function openFullPage(id) { 
+            document.getElementById(id).style.display = "block"; 
+            document.getElementById('home-view').style.opacity = "0"; 
+            document.getElementById('home-view').style.transform = "scale(0.9)"; 
+            document.body.style.overflow = "hidden"; 
+        }
+
+        function closeFullPage(id) { 
+            document.getElementById(id).style.display = "none"; 
+            document.getElementById('home-view').style.opacity = "1"; 
+            document.getElementById('home-view').style.transform = "scale(1)"; 
+            document.body.style.overflow = "auto"; 
+        }
+    </script>
+</body>
+</html>
